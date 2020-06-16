@@ -45,9 +45,9 @@ function setAudioPlayTime(hour, minute) {
 }
 
 function getAudioPlayTime(hour, minute) {
-	let time = `${hour}시간 ${minute}분`;
-	if(hour <= 0) time = `${hour}시간`;
-	if(minute <= 0) time = `${minute}분`;
+	let time = hour + '시간 ' + minute + '분';
+	if(hour <= 0) time = hour + '시간';
+	if(minute <= 0) time = minute + '분';
 	return time;
 }
 
@@ -92,8 +92,6 @@ class NPKRequest {
 
 		// input 파라미터
 		let {hour, minute} = setAudioPlayTime(params.meditation_playing_hour, params.meditation_playing_minute);
-
-		console.log(hour, minute);
 
 		// output 파라미터
 		result.meditation_playing_time = getAudioPlayTime(hour, minute);

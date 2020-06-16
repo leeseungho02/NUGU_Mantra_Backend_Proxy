@@ -45,9 +45,9 @@ function setAudioPlayTime(hour, minute) {
 }
 
 function getAudioPlayTime(hour, minute) {
-	let time = hour + '시간 ' + minute + '분';
-	if(hour <= 0) time = hour + '시간';
-	if(minute <= 0) time = minute + '분';
+	let time = "";
+	if(hour > 0) time = `${hour}시간`;
+	if(minute > 0) time += ` ${minute}분`;
 	return time;
 }
 

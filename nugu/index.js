@@ -38,9 +38,10 @@ function pauseDirective() {
 function setAudioPlayTime(hour, minute) {
 	let result = {};
 	result.hour = 0;
-	result.minute = 30;
+	result.minute = 0;
 	if(hour != undefined) result.hour = hour;
 	if(minute != undefined) result.minute = minute;
+	if(hour == undefined && minute == undefined) result.minute = 30;
 	return result;
 }
 

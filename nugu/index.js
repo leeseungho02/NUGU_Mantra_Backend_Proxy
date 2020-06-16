@@ -4,8 +4,8 @@ const { DOMAIN } = require('../config');
 
 class Directive {
 	constructor({type, audioItem}) {
-	  this.type = type
-	  this.audioItem = audioItem
+	  this.type = type;
+	  this.audioItem = audioItem;
 	}
 }
   
@@ -88,12 +88,8 @@ class NPKRequest {
 	StartMeditationAction(params) {
 		let result = {};
 		let soundFileName = "wave_sound.mp3";
-		console.log(params);
-
 		// input 파라미터
 		let {hour, minute} = setAudioPlayTime(params.meditation_playing_hour.value, params.meditation_playing_minute.value);
-		console.log(params.meditation_playing_hour.value, params.meditation_playing_minute.value);
-
 		// output 파라미터
 		result.meditation_playing_time = getAudioPlayTime(hour, minute);
 		npkResponse.setStartMeditationActionOutput(result);
@@ -103,7 +99,7 @@ class NPKRequest {
 	// 공부 도움 서비스
 	StartWhitenoiseAction(params) {
 		let result = {};
-		let {hour, minute} = setAudioPlayTime(params.whitenoise_playing_hour, params.whitenoise_playing_minute);
+		let {hour, minute} = setAudioPlayTime(params.whitenoise_playing_hour.value, params.whitenoise_playing_minute.value);
 		let soundFileName = "";
 
 		switch (params.whitenoise_type) {
@@ -119,17 +115,14 @@ class NPKRequest {
 		}
 
 		result.whitenoise_playingtime = getAudioPlayTime(hour, minute);
-		result.whitenoise_type = params.whitenoise_type;
+		result.whitenoise_type = params.whitenoise_type.value;
 		npkResponse.setStartWhitenoiseActionOutput(result);
 		npkResponse.addDirective(audioPlayerDirective(soundFileName));
 	}
 
 	// 수면 유도 서비스
 	StartSleepAction(params) {
-		let result = {};
 		let soundFileName = "wave_sound.mp3";
-		result.result = "오늘도 수고하셨어요. 4 7 8 호흡법을 통해 수면유도를 도와드릴게요.";
-		npkResponse.setStartSleepActionOutput(result);
 		npkResponse.addDirective(audioPlayerDirective(soundFileName));
 	}
 }
@@ -144,25 +137,12 @@ class NPKResponse {
 		this.directives = [];
 	}
 
-	setAwnserLunchActionOutput(result) {
-		console.log("*** set output parameters");
-		this.output = {
-			lunch_menu: result.lunch_menu,
-			day_output: result.day_output
-		}
-	}
-
 	setStartMeditationActionOutput(result) {
 		console.log("*** set output parameters");
 		this.output = result;
 	}
 
 	setStartWhitenoiseActionOutput(result) {
-		console.log("*** set output parameters");
-		this.output = result;
-	}
-
-	setStartSleepActionOutput(result) {
 		console.log("*** set output parameters");
 		this.output = result;
 	}

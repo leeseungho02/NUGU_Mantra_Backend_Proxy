@@ -91,7 +91,7 @@ class NPKRequest {
 		console.log(params);
 
 		// input 파라미터
-		let {hour, minute} = setAudioPlayTime(params.meditation_playing_hour, params.meditation_playing_minute);
+		let {hour, minute} = setAudioPlayTime(params.meditation_playing_hour.value, params.meditation_playing_minute.value);
 
 		// output 파라미터
 		result.meditation_playing_time = getAudioPlayTime(hour, minute);

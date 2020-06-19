@@ -23,18 +23,6 @@ function audioPlayerDirective(soundFileName) {
 	});
 }
 
-function stopDirective() {
-	return {
-		"type": 'AudioPlayer.Stop',
-	};
-}
-
-function pauseDirective() {
-	return {
-		"type": 'AudioPlayer.Pause',
-	};
-}
-
 function setAudioPlayTime(hour, minute) {
 	let result = {};
 	result.hour = 0;
@@ -76,6 +64,9 @@ class NPKRequest {
 			case 'StartMeditationAction':
 				this.StartMeditationAction(parameters);
 				break;
+			case 'RecordMeditationAction':
+				this.RecordMeditationAction(parameters);
+				break;
 			case 'StartWhitenoiseAction':
 				this.StartWhitenoiseAction(parameters);
 				break;
@@ -93,8 +84,18 @@ class NPKRequest {
 		let {hour, minute} = setAudioPlayTime(params.meditation_playing_hour.value, params.meditation_playing_minute.value);
 		// output 파라미터
 		result.meditation_playing_time = getAudioPlayTime(hour, minute);
-		npkResponse.setStartMeditationActionOutput(result);
+		npkResponse.setActionOutput(result);
 		npkResponse.addDirective(audioPlayerDirective(soundFileName));
+	}
+
+	// 명상 지도 끝난 후 만족도 서비스
+	RecordMeditationAction(params) {
+		let result = {};
+		let value = params.score.value;
+
+
+
+		result.output = value;
 	}
 
 	// 공부 도움 서비스
@@ -117,7 +118,7 @@ class NPKRequest {
 
 		result.whitenoise_playingtime = getAudioPlayTime(hour, minute);
 		result.whitenoise_type = params.whitenoise_type.value;
-		npkResponse.setStartWhitenoiseActionOutput(result);
+		npkResponse.setActionOutput(result);
 		npkResponse.addDirective(audioPlayerDirective(soundFileName));
 	}
 
@@ -130,20 +131,15 @@ class NPKRequest {
 
 class NPKResponse {
 	constructor () {
-		console.log('NPKResponse constructor');
-
 		this.version = '2.0';
 		this.resultCode = 'OK';
 		this.output = {};
 		this.directives = [];
+
+		console.log('NPKResponse constructor');
 	}
 
-	setStartMeditationActionOutput(result) {
-		console.log("*** set output parameters");
-		this.output = result;
-	}
-
-	setStartWhitenoiseActionOutput(result) {
+	setActionOutput(result){
 		console.log("*** set output parameters");
 		this.output = result;
 	}

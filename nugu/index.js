@@ -4,12 +4,11 @@ const { DOMAIN } = require('../config');
 const mysql = require("mysql");
 const connection = mysql.createConnection({
 	host: 'http://gondr.asuscomm.com/phpmyadmin',
+	port: '3306',
 	user: 'yy_10122',
 	password: 'asdf1234',
 	database: 'yy_10122'
 });
-
-connection.connect();
 
 class Directive {
 	constructor({type, audioItem}) {
@@ -103,13 +102,19 @@ class NPKRequest {
 		let value = params.score.value;
 		console.log(`\n\n\n\n\n\n\n\n\n\n\n\n\n\n${value}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n`);
 
-		connection.query("INSERT INTO mantra_meditation (score, create_date, user_id) VALUES (?, now(), ?)", array(score, 1), function(err, rows, fields) {
+		let sql = "INSERT INTO mantra_meditation (score, create_date, user_id) VALUES (?, now(), ?)";
+
+		connection.connect();
+		connection.query(sql, array(score, 1), function(err, results, field) {
 			if(err) {
 				console.log(err);
+				throw err;
 			} else {
-				console.log(rows);
+				console.log(results);
 			}
+			console.log(field);
 		});
+		connection.end();
 
 		result.output = value;
 	}

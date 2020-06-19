@@ -110,7 +110,6 @@ class NPKRequest {
 	RecordMeditationAction(params) {
 		let result = {};
 		let score = params.score.value;
-		let yesterday_score = 0;
 		console.log(`\n\n\n\n\n\n\n\n\n\n\n\n\n\n${score}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n`);
 
 		let sql = "INSERT INTO mantra_meditation (score, create_date, user_id) VALUES (?, now(), ?)";
@@ -122,18 +121,11 @@ class NPKRequest {
 				console.log(result);
 
 				db.query("SELECT score FROM mantra_meditation WHERE user_id = ? ORDER BY create_date DESC LIMIT 1", [1], function(err, result) {
-					yesterday_score = result;
-					if(err){
-						console.log(err);
-					} else {
-						console.log(result);
-					}
+					result.output = getScoreOutput(result, score);
+					npkResponse.setActionOutput(result);
 				});
 			}
 		});
-
-		result.output = getScoreOutput(yesterday_score, score);
-		npkResponse.setActionOutput(result);
 	}
 
 	// 공부 도움 서비스

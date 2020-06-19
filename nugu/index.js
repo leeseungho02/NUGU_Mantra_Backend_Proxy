@@ -108,7 +108,6 @@ class NPKRequest {
 
 	// 명상 지도 끝난 후 만족도 서비스
 	RecordMeditationAction(params) {
-		let result = {};
 		let score = params.score.value;
 		console.log(`\n\n\n\n\n\n\n\n\n\n\n\n\n\n${score}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n`);
 
@@ -117,7 +116,8 @@ class NPKRequest {
 		db.query(sql, [score, 1], function(err, r) {
 			if(!err) {
 				db.query("SELECT score FROM mantra_meditation WHERE user_id = ? ORDER BY create_date DESC LIMIT 1", [1], function(err, r) {
-					result.output = getScoreOutput(r[0].score, score);
+					let result = {};
+					result.meditation_score_message = getScoreOutput(r[0].score, score);
 					npkResponse.setActionOutput(result);
 				});
 			}

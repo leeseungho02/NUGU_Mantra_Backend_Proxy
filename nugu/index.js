@@ -114,11 +114,11 @@ class NPKRequest {
 
 		let sql = "INSERT INTO mantra_meditation (score, create_date, user_id) VALUES (?, now(), ?)";
 
-		db.query(sql, [score, 1], function(err, result) {
+		db.query(sql, [score, 1], function(err, r) {
 			if(err) {
 				console.log(err);
 			} else {
-				console.log(result);
+				console.log(r);
 
 				db.query("SELECT score FROM mantra_meditation WHERE user_id = ? ORDER BY create_date DESC LIMIT 1", [1], function(err, r) {
 					result.output = getScoreOutput(result, score);

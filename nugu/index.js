@@ -1,6 +1,15 @@
 const uuid = require('uuid').v4;
 const _ = require('lodash');
 const { DOMAIN } = require('../config');
+const mysql = require("mysql");
+const connection = mysql.createConnection({
+	host: 'http://gondr.asuscomm.com/phpmyadmin',
+	user: 'yy_10122',
+	password: 'asdf1234',
+	database: 'yy_10122'
+});
+
+connection.connect();
 
 class Directive {
 	constructor({type, audioItem}) {
@@ -92,8 +101,15 @@ class NPKRequest {
 	RecordMeditationAction(params) {
 		let result = {};
 		let value = params.score.value;
+		console.log(`\n\n\n\n\n\n\n\n\n\n\n\n\n\n${value}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n`);
 
-
+		connection.query("INSERT INTO mantra_meditation (score, create_date, user_id) VALUES (?, now(), ?)", array(score, 1), function(error, rows, fields) {
+			if(error) {
+				console.log(error);
+			} else {
+				console.log(rows);
+			}
+		});
 
 		result.output = value;
 	}

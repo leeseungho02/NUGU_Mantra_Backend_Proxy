@@ -3,7 +3,7 @@ const _ = require('lodash');
 const { DOMAIN } = require('../config');
 const mysql = require("mysql");
 const connection = mysql.createConnection({
-	host: 'localhost',
+	host: 'http://10.104.107.131',
 	user: 'root',
 	password: '',
 	database: 'mantra'

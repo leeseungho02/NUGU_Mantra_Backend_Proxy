@@ -117,7 +117,7 @@ class NPKRequest {
 		db.query(sql, [score, 1], function(err, r) {
 			if(!err) {
 				db.query("SELECT score FROM mantra_meditation WHERE user_id = ? ORDER BY create_date DESC LIMIT 1", [1], function(err, r) {
-					console.log(`\n\n\n\n\n\n\n\n\n\n\n\n\n\n${r}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n`);
+					console.log(`\n\n\n\n\n\n\n\n\n\n\n\n\n\n${r}\n${r[0]}\n${r[0].score}\n${r.score}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n`);
 					result.output = getScoreOutput(r, score);
 					npkResponse.setActionOutput(result);
 				});

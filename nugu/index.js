@@ -103,9 +103,9 @@ class NPKRequest {
 		let value = params.score.value;
 		console.log(`\n\n\n\n\n\n\n\n\n\n\n\n\n\n${value}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n`);
 
-		connection.query("INSERT INTO mantra_meditation (score, create_date, user_id) VALUES (?, now(), ?)", array(score, 1), function(error, rows, fields) {
-			if(error) {
-				console.log(error);
+		connection.query("INSERT INTO mantra_meditation (score, create_date, user_id) VALUES (?, now(), ?)", array(score, 1), function(err, rows, fields) {
+			if(err) {
+				console.log(err);
 			} else {
 				console.log(rows);
 			}

@@ -123,7 +123,7 @@ class NPKRequest {
 
 				db.query("SELECT score FROM mantra_meditation WHERE user_id = ? ORDER BY create_date DESC LIMIT 1", [1], function(err, result) {
 					yesterday_score = result;
-					if(error){
+					if(err){
 						console.log(err);
 					} else {
 						console.log(result);

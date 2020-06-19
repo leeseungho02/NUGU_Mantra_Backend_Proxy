@@ -3,10 +3,10 @@ const _ = require('lodash');
 const { DOMAIN } = require('../config');
 const mysql = require("mysql");
 const connection = mysql.createConnection({
-	host: 'gondr.asuscomm.com/phpmyadmin',
-	user: 'yy_10122',
-	password: 'asdf1234',
-	database: 'yy_10122'
+	host: 'localhost',
+	user: 'root',
+	password: '',
+	database: 'mantra'
 });
 
 class Directive {
@@ -99,14 +99,14 @@ class NPKRequest {
 		let score = params.score.value;
 		console.log(`\n\n\n\n\n\n\n\n\n\n\n\n\n\n${score}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n`);
 
-		let sql = "INSERT INTO mantra_meditation (score, create_date, user_id) VALUES (?, now(), ?)";
+		let sql = "INSERT INTO meditation (score, create_date, user_id) VALUES (?, now(), ?)";
 
 		connection.connect();
 		connection.query(sql, [score, 1], function(err, result) {
 			if(err) {
 				console.log(err);
 			} else {
-				connection.query("SELECT score FROM mantra_meditation WHERE user_id = ? ORDER BY create_date DESC LIMIT 1", [1], function(err, result) {
+				connection.query("SELECT score FROM meditation WHERE user_id = ? ORDER BY create_date DESC LIMIT 1", [1], function(err, result) {
 					if(error){
 						console.log(err);
 					} else {

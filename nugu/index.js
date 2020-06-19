@@ -132,8 +132,8 @@ class NPKRequest {
 			}
 		});
 
-		result.score = score;
 		result.output = getScoreOutput(yesterday_score, score);
+		npkResponse.setActionOutput(result);
 	}
 
 	// 공부 도움 서비스

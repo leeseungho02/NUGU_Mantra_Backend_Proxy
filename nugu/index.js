@@ -3,7 +3,7 @@ const _ = require('lodash');
 const { DOMAIN } = require('../config');
 const mysql = require("mysql");
 const connection = mysql.createConnection({
-	host: 'http://gondr.asuscomm.com/phpmyadmin',
+	host: 'gondr.asuscomm.com/phpmyadmin',
 	port: '3306',
 	user: 'yy_10122',
 	password: 'asdf1234',
@@ -33,10 +33,8 @@ function audioPlayerDirective(soundFileName) {
 
 function setAudioPlayTime(hour, minute) {
 	let result = {};
-	result.hour = 0;
-	result.minute = 0;
-	if(hour != 0) result.hour = hour;
-	if(minute != 0) result.minute = minute;
+	result.hour = hour;
+	result.minute = minute;
 	if(hour == 0 && minute == 0) result.minute = 30;
 	return result;
 }
@@ -105,14 +103,18 @@ class NPKRequest {
 		let sql = "INSERT INTO mantra_meditation (score, create_date, user_id) VALUES (?, now(), ?)";
 
 		connection.connect();
-		connection.query(sql, array(score, 1), function(err, results, field) {
+		connection.query(sql, array(score, 1), function(err, result) {
 			if(err) {
 				console.log(err);
-				throw err;
 			} else {
-				console.log(results);
+				connection.query("SELECT score FROM mantra_meditation WHERE user_id = ? ORDER BY create_date DESC LIMIT 1", array(1), function(err, result) {
+					if(error){
+						console.log(err);
+					} else {
+						console.log(result);
+					}
+				});
 			}
-			console.log(field);
 		});
 		connection.end();
 

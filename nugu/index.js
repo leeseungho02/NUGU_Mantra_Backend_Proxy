@@ -117,7 +117,7 @@ class NPKRequest {
 		});
 		connection.end();
 
-		result.output = value;
+		result.output = score;
 	}
 
 	// 공부 도움 서비스

@@ -2,12 +2,13 @@ const uuid = require('uuid').v4;
 const _ = require('lodash');
 const { DOMAIN } = require('../config');
 const mysql = require("mysql");
-const connection = mysql.createConnection({
-	host: 'http://10.104.107.131',
-	user: 'root',
-	password: '',
-	database: 'mantra'
+const db = mysql.createConnection({
+	host: 'localhost',
+	user: 'yy_10122',
+	password: 'asdf1234',
+	database: 'yy_10122'
 });
+db.connect();
 
 class Directive {
 	constructor({type, audioItem}) {
@@ -43,6 +44,18 @@ function getAudioPlayTime(hour, minute) {
 	if(hour > 0) time = `${hour}시간`;
 	if(minute > 0) time += ` ${minute}분`;
 	return time;
+}
+
+function getScoreOutput(yesterday_score, now_score) {
+	let msg = '오늘 명상 점수는';
+
+	if(now_score > yesterday_score) {
+		msg += `${now_score}으로 가장 최근의 명상점수인 ${yesterday_score}보다 좋아졌네요.`;
+	} else {
+		msg += `${now_score}으로 가장 최근의 명상점수인 ${yesterday_score}보다 낮아졌네요.`;
+	}
+
+	return msg;
 }
 
 class NPKRequest {
@@ -97,16 +110,19 @@ class NPKRequest {
 	RecordMeditationAction(params) {
 		let result = {};
 		let score = params.score.value;
+		let yesterday_score = 0;
 		console.log(`\n\n\n\n\n\n\n\n\n\n\n\n\n\n${score}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n`);
 
-		let sql = "INSERT INTO meditation (score, create_date, user_id) VALUES (?, now(), ?)";
+		let sql = "INSERT INTO mantra_meditation (score, create_date, user_id) VALUES (?, now(), ?)";
 
-		connection.connect();
-		connection.query(sql, [score, 1], function(err, result) {
+		db.query(sql, [score, 1], function(err, result) {
 			if(err) {
 				console.log(err);
 			} else {
-				connection.query("SELECT score FROM meditation WHERE user_id = ? ORDER BY create_date DESC LIMIT 1", [1], function(err, result) {
+				console.log(result);
+
+				db.query("SELECT score FROM mantra_meditation WHERE user_id = ? ORDER BY create_date DESC LIMIT 1", [1], function(err, result) {
+					yesterday_score = result;
 					if(error){
 						console.log(err);
 					} else {
@@ -115,9 +131,9 @@ class NPKRequest {
 				});
 			}
 		});
-		connection.end();
 
-		result.output = score;
+		result.score = score;
+		result.output = getScoreOutput(yesterday_score, score);
 	}
 
 	// 공부 도움 서비스

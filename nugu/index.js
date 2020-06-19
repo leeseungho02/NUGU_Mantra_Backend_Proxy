@@ -96,8 +96,8 @@ class NPKRequest {
 	// 명상 지도 끝난 후 만족도 서비스
 	RecordMeditationAction(params) {
 		let result = {};
-		let value = params.score.value;
-		console.log(`\n\n\n\n\n\n\n\n\n\n\n\n\n\n${value}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n`);
+		let score = params.score.value;
+		console.log(`\n\n\n\n\n\n\n\n\n\n\n\n\n\n${score}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n`);
 
 		let sql = "INSERT INTO mantra_meditation (score, create_date, user_id) VALUES (?, now(), ?)";
 

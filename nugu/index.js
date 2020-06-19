@@ -4,7 +4,6 @@ const { DOMAIN } = require('../config');
 const mysql = require("mysql");
 const connection = mysql.createConnection({
 	host: 'gondr.asuscomm.com/phpmyadmin',
-	port: '3306',
 	user: 'yy_10122',
 	password: 'asdf1234',
 	database: 'yy_10122'

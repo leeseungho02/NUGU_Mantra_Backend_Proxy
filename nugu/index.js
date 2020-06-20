@@ -115,14 +115,12 @@ class NPKRequest {
 
 		db.query(sql, [score, 1], function(err, r) {
 			console.log(err);
-			if(!err) {
-				db.query("SELECT score FROM mantra_meditation WHERE user_id = ? ORDER BY create_date DESC LIMIT 1", [1], function(err, r) {
-					let result = {};
-					result.meditation_score_message = getScoreOutput(r[0].score, score);
-					console.log(`\n\n\n\n\n\n\n\n\n\n\n\n\n\n${result.meditation_score_message}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n`);
-					npkResponse.setActionOutput(result);
-				});
-			}
+			db.query("SELECT score FROM mantra_meditation WHERE user_id = ? ORDER BY create_date DESC LIMIT 1", [1], function(err, r) {
+				let result = {};
+				result.meditation_score_message = getScoreOutput(r[0].score, score);
+				console.log(`\n\n\n\n\n\n\n\n\n\n\n\n\n\n${result.meditation_score_message}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n`);
+				npkResponse.setActionOutput(result);
+			});
 		});
 	}
 
